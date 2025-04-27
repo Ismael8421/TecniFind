@@ -16,6 +16,8 @@ body {
   margin: 0;
   padding: 0;
   overflow-x: hidden;
+  /* Eliminar posibles bordes blancos asegurando que el fondo cubre todo */
+  background-color: #f2da5e;
 }
 
 body {
@@ -37,6 +39,11 @@ body {
   background-attachment: fixed;
   position: relative;
   overflow-x: hidden;
+}
+
+/* IMPORTANTE: Asegurar que el fondo sea igual al del gradiente para evitar bordes blancos */
+:root {
+  background-color: rgba(242, 218, 94, 0.4);
 }
 
 /* Elementos decorativos de fondo */
@@ -129,16 +136,18 @@ body::after {
   }
 }
 
-/* Contenedor principal */
+/* Contenedor principal - Ajustado para eliminar bordes blancos */
 .container {
-  width: 100%;
-  min-height: 100vh;
+  width: 100vw; /* Asegura que ocupe todo el ancho de la ventana */
+  min-height: 100vh; /* Asegura que ocupe todo el alto de la ventana */
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 10px;
+  padding: 0; /* Eliminamos el padding que creaba bordes */
+  margin: 0; /* Eliminamos cualquier margen */
   position: relative;
   z-index: 1;
+  overflow: hidden; /* Previene desbordamiento */
 }
 
 /* Contenedor de presentación */
@@ -147,7 +156,7 @@ body::after {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 100%;
+  width: 92%; /* Ligeramente más ancho en móviles */
   max-width: 400px;
   padding: 30px 20px;
   background: rgba(255, 255, 255, 0.85);
@@ -160,7 +169,7 @@ body::after {
   position: relative;
   overflow: hidden;
   border: 1px solid rgba(242, 218, 94, 0.3);
-  margin: 10px;
+  margin: 0; /* Eliminamos margen que podría causar bordes blancos */
 }
 
 .presentation-container::before {
@@ -181,6 +190,7 @@ header {
   flex-direction: column;
   margin-bottom: 20px;
   position: relative;
+  width: 100%; /* Asegura que ocupe todo el ancho disponible */
 }
 
 .logo-container {
@@ -188,6 +198,7 @@ header {
   justify-content: center;
   margin-bottom: 10px;
   position: relative;
+  width: 100%; /* Asegura que ocupe todo el ancho disponible */
 }
 
 .logo {
@@ -223,14 +234,14 @@ h1::after {
   border-radius: 2px;
 }
 
-/* Descripción de la app */
+/* Descripción de la app - corregido el ancho */
 .description-container {
   background-color: rgba(255, 255, 255, 0.8);
   padding: 20px;
   border-radius: 16px;
   box-shadow: 0 8px 16px rgba(90, 127, 148, 0.08);
   margin-bottom: 25px;
-  width: 0%;
+  width: 100%; /* Corregido: antes era 0% */
   max-width: 100%;
   border: 1px solid rgba(90, 127, 148, 0.1);
   position: relative;
@@ -321,11 +332,12 @@ h1::after {
   font-size: 16px;
 }
 
-/* Medios de comunicación para pantallas pequeñas */
+/* Mejoras en la sección de media queries para responsive */
 @media (max-width: 768px) {
   .presentation-container {
     padding: 25px 15px;
     max-width: 350px;
+    width: 95%; /* Ligeramente más ancho en tablets */
   }
 
   .logo {
@@ -354,13 +366,14 @@ h1::after {
 @media (max-width: 480px) {
   .container {
     padding: 0;
+    height: 100%; /* Asegura que ocupa toda la altura en móviles */
   }
 
   .presentation-container {
     padding: 20px 15px;
-    width: 90%;
-    max-width: 320px;
-    margin: 0;
+    width: 92%; /* Ajustado para evitar bordes en móviles */
+    max-width: none; /* Permitimos que se ajuste al ancho % */
+    margin: 10px 0; /* Reducido para evitar bordes blancos */
     border-radius: 15px;
   }
 
@@ -400,7 +413,8 @@ h1::after {
 @media (max-width: 320px) {
   .presentation-container {
     padding: 15px 10px;
-    width: 95%;
+    width: 98%; /* Casi todo el ancho en pantallas muy pequeñas */
+    border-radius: 12px; /* Bordes más pequeños */
   }
 
   .logo {
@@ -411,6 +425,10 @@ h1::after {
   h1 {
     font-size: 22px;
     margin-bottom: 10px;
+  }
+
+  h1::after {
+    width: 40px; /* Reducir el tamaño de la línea decorativa */
   }
 
   .description-container {
@@ -425,5 +443,23 @@ h1::after {
   .btn {
     padding: 10px 15px;
     font-size: 12px;
+  }
+}
+
+/* Ajustes para pantallas altas (smartphones modernos) */
+@media (min-height: 800px) and (max-width: 480px) {
+  .container {
+    align-items: center; /* Centrar verticalmente en pantallas altas */
+  }
+  
+  .presentation-container {
+    margin: 0; /* Eliminar margen en pantallas altas */
+  }
+}
+
+/* Asegurar compatibilidad con navegadores que no soportan backdrop-filter */
+@supports not (backdrop-filter: blur(10px)) {
+  .presentation-container {
+    background: rgba(255, 255, 255, 0.95); /* Fondo más opaco si no hay blur */
   }
 }
